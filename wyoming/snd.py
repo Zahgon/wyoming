@@ -55,9 +55,7 @@ class SndProcessAsyncClient(AsyncClient, contextlib.AbstractAsyncContextManager)
         self._chunk_converter = AudioChunkConverter(rate, width, channels)
 
     async def connect(self) -> None:
-        self._proc = await asyncio.create_subprocess_exec(
-            self.program, *self.program_args, stdin=asyncio.subprocess.PIPE
-        )
+        pass
 
     async def disconnect(self) -> None:
         assert self._proc is not None

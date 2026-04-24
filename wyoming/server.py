@@ -48,9 +48,7 @@ class AsyncEventHandler(ABC):
 
     async def stop(self) -> None:
         """Try to stop the event handler."""
-        self._is_running = False
-        self.writer.close()
-        self.reader.feed_eof()
+        pass
 
 
 HandlerFactory = Callable[
@@ -93,17 +91,14 @@ class AsyncServer(ABC):
         reader: asyncio.StreamReader,
         writer: asyncio.StreamWriter,
     ):
-        handler = handler_factory(reader, writer)
-        task = asyncio.create_task(handler.run(), name="wyoming event handler")
-        self._handlers[task] = handler
-        task.add_done_callback(lambda t: self._handlers.pop(t, None))
+        pass
 
     async def start(self, handler_factory: HandlerFactory) -> None:
         """Start server without blocking."""
 
     async def stop(self) -> None:
         """Try to stop all event handlers."""
-        await asyncio.gather(*(h.stop() for h in self._handlers.values()))
+        pass
 
 
 class AsyncStdioServer(AsyncServer):
@@ -150,19 +145,11 @@ class AsyncTcpServer(AsyncServer):
 
     async def start(self, handler_factory: HandlerFactory) -> None:
         """Start server without blocking."""
-        handler_callback = partial(self._handler_callback, handler_factory)
-        self._server = await asyncio.start_server(
-            handler_callback, host=self.host, port=self.port
-        )
-
-        await self._server.start_serving()
+        pass
 
     async def stop(self) -> None:
         """Try to stop all event handlers."""
-        await super().stop()
-
-        if self._server is not None:
-            self._server.close()
+        pass
 
 
 class AsyncUnixServer(AsyncServer):
@@ -191,21 +178,8 @@ class AsyncUnixServer(AsyncServer):
 
     async def start(self, handler_factory: HandlerFactory) -> None:
         """Start server without blocking."""
-        # Need to unlink socket file if it exists
-        self.socket_path.unlink(missing_ok=True)
-
-        handler_callback = partial(self._handler_callback, handler_factory)
-        self._server = await asyncio.start_unix_server(
-            handler_callback, path=self.socket_path
-        )
-
-        await self._server.start_serving()
+        pass
 
     async def stop(self) -> None:
         """Try to stop all event handlers."""
-        await super().stop()
-
-        if self._server is not None:
-            self._server.close()
-
-        self.socket_path.unlink(missing_ok=True)
+        pass

@@ -97,16 +97,7 @@ class Intent(Eventable):
         return Intent.from_dict(event.data)
 
     def to_rhasspy(self) -> Dict[str, Any]:
-        return {
-            "intent": {
-                "name": self.name,
-            },
-            "entities": [
-                {"entity": entity.name, "value": entity.value}
-                for entity in self.entities
-            ],
-            "slots": {entity.name: entity.value for entity in self.entities},
-        }
+        pass
 
 
 @dataclass

@@ -38,22 +38,9 @@ class HomeAssistantZeroconf:
 
     async def register_server(self) -> None:
         """Register ZeroConf server."""
-
-        service_info = AsyncServiceInfo(
-            "_wyoming._tcp.local.",
-            f"{self.name}._wyoming._tcp.local.",
-            addresses=[socket.inet_aton(self.host)],
-            port=self.port,
-        )
-        await self._aiozc.async_register_service(service_info)
-        _LOGGER.debug("Zeroconf discovery enabled: %s", service_info)
+        pass
 
 
 def _get_mac_address() -> str:
     """Return MAC address formatted as hex with no colons."""
-    return "".join(
-        # pylint: disable=consider-using-f-string
-        ["{:02x}".format((uuid.getnode() >> ele) & 0xFF) for ele in range(0, 8 * 6, 8)][
-            ::-1
-        ]
-    )
+    pass

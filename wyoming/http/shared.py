@@ -32,30 +32,16 @@ def get_app(
 
     @app.route("/")
     def redirect_to_api():
-        return redirect("/api")
+        pass
 
     @app.route("/api/info", methods=["GET"])
     async def api_info():
-        uri = request.args.get("uri", args.uri)
-        if not uri:
-            raise ValueError("URI is required")
-
-        async with AsyncClient.from_uri(uri) as client:
-            await client.write_event(Describe().event())
-
-            while True:
-                event = await client.read_event()
-                if event is None:
-                    raise RuntimeError("Client disconnected")
-
-                if Info.is_type(event.type):
-                    info = Info.from_event(event)
-                    return jsonify(info.to_dict())
+        pass
 
     @app.errorhandler(Exception)
     async def handle_error(err):
         """Return error as text."""
-        return (f"{err.__class__.__name__}: {err}", 500)
+        pass
 
     flask_api_doc(
         app, config_path=str(openapi_config_path), url_prefix="/api", title="API doc"

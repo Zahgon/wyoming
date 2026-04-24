@@ -70,10 +70,7 @@ class AsyncTcpClient(AsyncClient):
         self.port = port
 
     async def connect(self) -> None:
-        self._reader, self._writer = await asyncio.open_connection(
-            host=self.host,
-            port=self.port,
-        )
+        pass
 
     async def disconnect(self) -> None:
         writer = self._writer
@@ -94,9 +91,7 @@ class AsyncUnixClient(AsyncClient):
         self.socket_path = Path(socket_path)
 
     async def connect(self) -> None:
-        self._reader, self._writer = await asyncio.open_unix_connection(
-            path=self.socket_path
-        )
+        pass
 
     async def disconnect(self) -> None:
         writer = self._writer

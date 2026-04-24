@@ -28,59 +28,7 @@ def main():
 
     @app.route("/api/recognize-intent", methods=["POST", "GET"])
     async def api_stt() -> Dict[str, Any]:
-        uri = request.args.get("uri", args.uri)
-        if not uri:
-            raise ValueError("URI is required")
-
-        if request.method == "POST":
-            text = request.data.decode()
-        else:
-            text = request.args.get("text", "")
-
-        if not text:
-            raise ValueError("Text is required")
-
-        language = request.args.get("language", args.language)
-
-        async with AsyncClient.from_uri(uri) as client:
-            await client.write_event(Transcript(text=text, language=language).event())
-
-            while True:
-                event = await client.read_event()
-                if event is None:
-                    raise RuntimeError("Client disconnected")
-
-                success = False
-                type_name = "unknown"
-                result: Dict[str, Any] = {}
-
-                if Intent.is_type(event.type):
-                    success = True
-                    type_name = "intent"
-                    intent = Intent.from_event(event)
-                    result = intent.to_dict()
-                elif Handled.is_type(event.type):
-                    success = True
-                    type_name = "handled"
-                    handled = Handled.from_event(event)
-                    result = handled.to_dict()
-                elif NotRecognized.is_type(event.type):
-                    success = False
-                    type_name = "not-recognized"
-                    not_recognized = NotRecognized.from_event(event)
-                    result = not_recognized.to_dict()
-                elif NotHandled.is_type(event.type):
-                    success = False
-                    type_name = "not-handled"
-                    not_handled = NotHandled.from_event(event)
-                    result = not_handled.to_dict()
-                elif Error.is_type(event.type):
-                    error = Error.from_event(event)
-                    raise RuntimeError(
-                        f"Unexpected error from client: code={error.code}, text={error.text}"
-                    )
-
-                return {"success": success, "type": type_name, "result": result}
+        pass
 
     app.run(args.host, args.port)
 

@@ -30,46 +30,7 @@ def main():
 
     @app.route("/api/detect-wake-word", methods=["POST", "GET"])
     async def api_wake() -> Response:
-        uri = request.args.get("uri", args.uri)
-        if not uri:
-            raise ValueError("URI is required")
-
-        wake_word_names: Set[str] = set()
-
-        async with AsyncClient.from_uri(uri) as client:
-            if args.wake_word_name:
-                # From command-line
-                wake_word_names.update(args.wake_word_name)
-
-            wake_word_names.update(request.args.getlist("wake_words"))
-
-            if wake_word_names:
-                await client.write_event(Detect(list(wake_word_names)).event())
-
-            with io.BytesIO(request.data) as wav_io:
-                with wave.open(wav_io, "rb") as wav_file:
-                    chunks = wav_to_chunks(
-                        wav_file,
-                        samples_per_chunk=args.samples_per_chunk,
-                        start_event=True,
-                        stop_event=True,
-                    )
-                    for chunk in chunks:
-                        await client.write_event(chunk.event())
-
-            while True:
-                event = await client.read_event()
-                if event is None:
-                    raise RuntimeError("Client disconnected")
-
-                if Detection.is_type(event.type) or NotDetected.is_type(event.type):
-                    return jsonify(event.to_dict())
-
-                if Error.is_type(event.type):
-                    error = Error.from_event(event)
-                    raise RuntimeError(
-                        f"Unexpected error from client: code={error.code}, text={error.text}"
-                    )
+        pass
 
     app.run(args.host, args.port)
 

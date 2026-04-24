@@ -41,9 +41,7 @@ class MicProcessAsyncClient(AsyncClient, contextlib.AbstractAsyncContextManager)
         self._proc: Optional[Process] = None
 
     async def connect(self) -> None:
-        self._proc = await asyncio.create_subprocess_exec(
-            self.program, *self.program_args, stdout=asyncio.subprocess.PIPE
-        )
+        pass
 
     async def disconnect(self) -> None:
         assert self._proc is not None

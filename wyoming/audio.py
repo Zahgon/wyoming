@@ -73,15 +73,15 @@ class AudioChunk(AudioFormat, Eventable):
 
     @property
     def samples(self) -> int:
-        return len(self.audio) // (self.width * self.channels)
+        pass
 
     @property
     def seconds(self) -> float:
-        return self.samples / self.rate
+        pass
 
     @property
     def milliseconds(self) -> int:
-        return int(self.seconds * 1_000)
+        pass
 
 
 @dataclass

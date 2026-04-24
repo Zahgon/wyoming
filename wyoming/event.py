@@ -139,10 +139,7 @@ async def async_write_event(event: Event, writer: asyncio.StreamWriter):
 
 
 async def async_write_events(events: Iterable[Event], writer: asyncio.StreamWriter):
-    try:
-        await asyncio.gather(*(async_write_event(event, writer) for event in events))
-    except KeyboardInterrupt:
-        pass
+    pass
 
 
 def read_event(reader: Optional[BinaryIO] = None) -> Optional[Event]:
