@@ -18,14 +18,14 @@ class Describe(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _DESCRIBE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_DESCRIBE_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Describe":
-        return Describe()
+        raise NotImplementedError
 
 
 @dataclass
@@ -255,38 +255,11 @@ class Info(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _INFO_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {
-            "asr": [p.to_dict() for p in self.asr],
-            "tts": [p.to_dict() for p in self.tts],
-            "handle": [p.to_dict() for p in self.handle],
-            "intent": [p.to_dict() for p in self.intent],
-            "wake": [p.to_dict() for p in self.wake],
-            "mic": [p.to_dict() for p in self.mic],
-            "snd": [p.to_dict() for p in self.snd],
-        }
-
-        if self.satellite is not None:
-            data["satellite"] = self.satellite.to_dict()
-
-        return Event(type=_INFO_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Info":
-        satellite: Optional[Satellite] = None
-        satellite_data = event.data.get("satellite")
-        if satellite_data is not None:
-            satellite = Satellite.from_dict(satellite_data)
-
-        return Info(
-            asr=[AsrProgram.from_dict(d) for d in event.data.get("asr", [])],
-            tts=[TtsProgram.from_dict(d) for d in event.data.get("tts", [])],
-            handle=[HandleProgram.from_dict(d) for d in event.data.get("handle", [])],
-            intent=[IntentProgram.from_dict(d) for d in event.data.get("intent", [])],
-            wake=[WakeProgram.from_dict(d) for d in event.data.get("wake", [])],
-            mic=[MicProgram.from_dict(d) for d in event.data.get("mic", [])],
-            snd=[SndProgram.from_dict(d) for d in event.data.get("snd", [])],
-            satellite=satellite,
-        )
+        raise NotImplementedError

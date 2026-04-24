@@ -22,19 +22,7 @@ class HomeAssistantZeroconf:
     def __init__(
         self, port: int, name: Optional[str] = None, host: Optional[str] = None
     ) -> None:
-        self.port = port
-        self.name = name or _get_mac_address()
-
-        if not host:
-            test_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            test_sock.setblocking(False)
-            test_sock.connect((MDNS_TARGET_IP, 1))
-            host = test_sock.getsockname()[0]
-            _LOGGER.debug("Detected IP: %s", host)
-
-        assert host
-        self.host = host
-        self._aiozc = AsyncZeroconf()
+        raise NotImplementedError
 
     async def register_server(self) -> None:
         """Register ZeroConf server."""

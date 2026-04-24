@@ -20,19 +20,10 @@ CONF_PATH = _DIR / "conf" / "wake.yaml"
 
 
 def main():
-    parser = get_argument_parser()
-    parser.add_argument("--wake-word-name", action="append")
-    parser.add_argument("--samples-per-chunk", type=int, default=1024)
-    args = parser.parse_args()
-    logging.basicConfig(level=logging.DEBUG if args.debug else logging.INFO)
+    async def api_wake():
+        raise NotImplementedError
 
-    app = get_app("wake", CONF_PATH, args)
-
-    @app.route("/api/detect-wake-word", methods=["POST", "GET"])
-    async def api_wake() -> Response:
-        pass
-
-    app.run(args.host, args.port)
+    raise NotImplementedError
 
 
 if __name__ == "__main__":

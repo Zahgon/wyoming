@@ -29,29 +29,11 @@ class SynthesizeVoice:
     """Voice speaker from tts info."""
 
     def to_dict(self) -> Dict[str, str]:
-        if self.name is not None:
-            voice = {"name": self.name}
-            if self.speaker is not None:
-                voice["speaker"] = self.speaker
-        elif self.language is not None:
-            voice = {"language": self.language}
-        else:
-            voice = {}
-
-        return voice
+        raise NotImplementedError
 
     @staticmethod
     def from_dict(voice: Dict[str, Any]) -> "Optional[SynthesizeVoice]":
-        if "name" in voice:
-            return SynthesizeVoice(
-                name=voice["name"],
-                speaker=voice.get("speaker"),
-            )
-
-        if "language" in voice:
-            return SynthesizeVoice(name=voice["language"])
-
-        return None
+        raise NotImplementedError
 
 
 @dataclass
@@ -69,24 +51,14 @@ class Synthesize(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SYNTHESIZE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {"text": self.text}
-        if self.voice is not None:
-            data["voice"] = self.voice.to_dict()
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_SYNTHESIZE_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Synthesize":
-        return Synthesize(
-            text=event.data["text"],
-            voice=SynthesizeVoice.from_dict(event.data.get("voice", {})),
-            context=event.data.get("context"),
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -101,23 +73,14 @@ class SynthesizeStart(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SYNTHESIZE_START_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.voice is not None:
-            data["voice"] = self.voice.to_dict()
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_SYNTHESIZE_START_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SynthesizeStart":
-        return SynthesizeStart(
-            voice=SynthesizeVoice.from_dict(event.data.get("voice", {})),
-            context=event.data.get("context"),
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -129,14 +92,14 @@ class SynthesizeChunk(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SYNTHESIZE_CHUNK_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_SYNTHESIZE_CHUNK_TYPE, data={"text": self.text})
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SynthesizeChunk":
-        return SynthesizeChunk(text=event.data["text"])
+        raise NotImplementedError
 
 
 @dataclass
@@ -145,14 +108,14 @@ class SynthesizeStop(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SYNTHESIZE_STOP_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_SYNTHESIZE_STOP_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SynthesizeStop":
-        return SynthesizeStop()
+        raise NotImplementedError
 
 
 @dataclass
@@ -161,11 +124,11 @@ class SynthesizeStopped(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SYNTHESIZE_STOPPED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_SYNTHESIZE_STOPPED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SynthesizeStopped":
-        return SynthesizeStopped()
+        raise NotImplementedError

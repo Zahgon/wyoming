@@ -18,17 +18,14 @@ class Ping(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _PING_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_PING_TYPE,
-            data={"text": self.text},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Ping":
-        return Ping(text=event.data.get("text"))
+        raise NotImplementedError
 
 
 @dataclass
@@ -40,14 +37,11 @@ class Pong(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _PONG_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_PONG_TYPE,
-            data={"text": self.text},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Pong":
-        return Pong(text=event.data.get("text"))
+        raise NotImplementedError

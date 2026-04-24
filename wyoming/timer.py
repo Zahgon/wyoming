@@ -36,37 +36,14 @@ class TimerStarted(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _STARTED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data = {"id": self.id, "total_seconds": self.total_seconds}
-        if self.name is not None:
-            data["name"] = self.name
-
-        if self.start_hours is not None:
-            data["start_hours"] = self.start_hours
-
-        if self.start_minutes is not None:
-            data["start_minutes"] = self.start_minutes
-
-        if self.start_seconds is not None:
-            data["start_seconds"] = self.start_seconds
-
-        return Event(
-            type=_STARTED_TYPE,
-            data=data,
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TimerStarted":
-        return TimerStarted(
-            id=event.data["id"],
-            total_seconds=event.data["total_seconds"],
-            name=event.data.get("name"),
-            start_hours=event.data.get("start_hours"),
-            start_minutes=event.data.get("start_minutes"),
-            start_seconds=event.data.get("start_seconds"),
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -84,25 +61,14 @@ class TimerUpdated(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _UPDATED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_UPDATED_TYPE,
-            data={
-                "id": self.id,
-                "is_active": self.is_active,
-                "total_seconds": self.total_seconds,
-            },
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TimerUpdated":
-        return TimerUpdated(
-            id=event.data["id"],
-            is_active=event.data["is_active"],
-            total_seconds=event.data["total_seconds"],
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -114,17 +80,14 @@ class TimerCancelled(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _CANCELLED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_CANCELLED_TYPE,
-            data={"id": self.id},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TimerCancelled":
-        return TimerCancelled(id=event.data["id"])
+        raise NotImplementedError
 
 
 @dataclass
@@ -136,14 +99,11 @@ class TimerFinished(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _FINISHED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_FINISHED_TYPE,
-            data={"id": self.id},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TimerFinished":
-        return TimerFinished(id=event.data["id"])
+        raise NotImplementedError

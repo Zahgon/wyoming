@@ -19,17 +19,14 @@ class VoiceStarted(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _STARTED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_STARTED_TYPE,
-            data={"timestamp": self.timestamp},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "VoiceStarted":
-        return VoiceStarted(timestamp=event.data.get("timestamp"))
+        raise NotImplementedError
 
 
 @dataclass
@@ -41,14 +38,11 @@ class VoiceStopped(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _STOPPED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(
-            type=_STOPPED_TYPE,
-            data={"timestamp": self.timestamp},
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "VoiceStopped":
-        return VoiceStopped(timestamp=event.data.get("timestamp"))
+        raise NotImplementedError

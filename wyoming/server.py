@@ -15,9 +15,7 @@ class AsyncEventHandler(ABC):
     def __init__(
         self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
     ) -> None:
-        self.reader = reader
-        self.writer = writer
-        self._is_running = False
+        raise NotImplementedError
 
     @abstractmethod
     async def handle_event(self, event: Event) -> bool:
@@ -26,22 +24,11 @@ class AsyncEventHandler(ABC):
 
     async def write_event(self, event: Event) -> None:
         """Send an event to the client."""
-        await async_write_event(event, self.writer)
+        raise NotImplementedError
 
     async def run(self) -> None:
         """Receive events until stopped or handle_event returns false."""
-        self._is_running = True
-
-        try:
-            while self._is_running:
-                event = await async_read_event(self.reader)
-                if event is None:
-                    break
-
-                if not (await self.handle_event(event)):
-                    break
-        finally:
-            await self.disconnect()
+        raise NotImplementedError
 
     async def disconnect(self) -> None:
         """Called when client disconnects."""
@@ -60,7 +47,7 @@ class AsyncServer(ABC):
     """Base class for async Wyoming server."""
 
     def __init__(self) -> None:
-        self._handlers: Dict[asyncio.Task, AsyncEventHandler] = {}
+        raise NotImplementedError
 
     @abstractmethod
     async def run(self, handler_factory: HandlerFactory) -> None:
@@ -69,21 +56,7 @@ class AsyncServer(ABC):
     @staticmethod
     def from_uri(uri: str) -> "AsyncServer":
         """Create server from URI."""
-        result = urlparse(uri)
-
-        if result.scheme == "unix":
-            return AsyncUnixServer(result.path)
-
-        if result.scheme == "tcp":
-            if (result.hostname is None) or (result.port is None):
-                raise ValueError("A port must be specified when using a 'tcp://' URI")
-
-            return AsyncTcpServer(result.hostname, result.port)
-
-        if result.scheme == "stdio":
-            return AsyncStdioServer()
-
-        raise ValueError("Only 'stdio://', 'unix://', or 'tcp://' are supported")
+        raise NotImplementedError
 
     async def _handler_callback(
         self,
@@ -106,42 +79,17 @@ class AsyncStdioServer(AsyncServer):
 
     async def run(self, handler_factory: HandlerFactory) -> None:
         """Start server and block while running."""
-        reader = await async_get_stdin()
-
-        # Get stdout writer.
-        # NOTE: This will make print() non-blocking.
-        loop = asyncio.get_running_loop()
-        writer_transport, writer_protocol = await loop.connect_write_pipe(
-            asyncio.streams.FlowControlMixin, sys.stdout
-        )
-        writer = asyncio.StreamWriter(writer_transport, writer_protocol, None, loop)
-
-        handler = handler_factory(reader, writer)
-        while True:
-            event = await async_read_event(reader)
-            if event is None:
-                break
-
-            if not (await handler.handle_event(event)):
-                break
+        raise NotImplementedError
 
 
 class AsyncTcpServer(AsyncServer):
     """Wyoming server over TCP."""
 
     def __init__(self, host: str, port: int) -> None:
-        super().__init__()
-        self.host = host
-        self.port = port
-        self._server: Optional[asyncio.AbstractServer] = None
+        raise NotImplementedError
 
     async def run(self, handler_factory: HandlerFactory) -> None:
-        handler_callback = partial(self._handler_callback, handler_factory)
-        self._server = await asyncio.start_server(
-            handler_callback, host=self.host, port=self.port
-        )
-
-        await self._server.serve_forever()
+        raise NotImplementedError
 
     async def start(self, handler_factory: HandlerFactory) -> None:
         """Start server without blocking."""
@@ -156,25 +104,12 @@ class AsyncUnixServer(AsyncServer):
     """Wyoming server over a Unix domain socket."""
 
     def __init__(self, socket_path: Union[str, Path]) -> None:
-        super().__init__()
-        self.socket_path = Path(socket_path)
-        self._server: Optional[asyncio.AbstractServer] = None
+        raise NotImplementedError
 
     async def run(self, handler_factory: HandlerFactory) -> None:
         """Start server and block while running."""
         # Need to unlink socket file if it exists
-        self.socket_path.unlink(missing_ok=True)
-
-        handler_callback = partial(self._handler_callback, handler_factory)
-        self._server = await asyncio.start_unix_server(
-            handler_callback, path=self.socket_path
-        )
-
-        try:
-            await self._server.serve_forever()
-        finally:
-            # Unlink when we're done
-            self.socket_path.unlink(missing_ok=True)
+        raise NotImplementedError
 
     async def start(self, handler_factory: HandlerFactory) -> None:
         """Start server without blocking."""

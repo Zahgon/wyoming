@@ -19,18 +19,10 @@ CONF_PATH = _DIR / "conf" / "intent.yaml"
 
 
 def main():
-    parser = get_argument_parser()
-    parser.add_argument("--language", help="Language for text")
-    args = parser.parse_args()
-    logging.basicConfig(level=logging.DEBUG if args.debug else logging.INFO)
+    async def api_stt():
+        raise NotImplementedError
 
-    app = get_app("intent", CONF_PATH, args)
-
-    @app.route("/api/recognize-intent", methods=["POST", "GET"])
-    async def api_stt() -> Dict[str, Any]:
-        pass
-
-    app.run(args.host, args.port)
+    raise NotImplementedError
 
 
 if __name__ == "__main__":

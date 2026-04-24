@@ -18,14 +18,14 @@ class RunSatellite(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _RUN_SATELLITE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_RUN_SATELLITE_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "RunSatellite":
-        return RunSatellite()
+        raise NotImplementedError
 
 
 @dataclass
@@ -34,14 +34,14 @@ class PauseSatellite(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _PAUSE_SATELLITE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_PAUSE_SATELLITE_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "PauseSatellite":
-        return PauseSatellite()
+        raise NotImplementedError
 
 
 @dataclass
@@ -50,14 +50,14 @@ class StreamingStarted(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _STREAMING_STARTED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_STREAMING_STARTED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "StreamingStarted":
-        return StreamingStarted()
+        raise NotImplementedError
 
 
 @dataclass
@@ -66,14 +66,14 @@ class StreamingStopped(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _STREAMING_STOPPED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_STREAMING_STOPPED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "StreamingStopped":
-        return StreamingStopped()
+        raise NotImplementedError
 
 
 @dataclass
@@ -82,14 +82,14 @@ class SatelliteConnected(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SATELLITE_CONNECTED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_SATELLITE_CONNECTED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SatelliteConnected":
-        return SatelliteConnected()
+        raise NotImplementedError
 
 
 @dataclass
@@ -98,11 +98,11 @@ class SatelliteDisconnected(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _SATELLITE_DISCONNECTED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_SATELLITE_DISCONNECTED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "SatelliteDisconnected":
-        return SatelliteDisconnected()
+        raise NotImplementedError

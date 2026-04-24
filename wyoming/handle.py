@@ -25,23 +25,14 @@ class Handled(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _HANDLED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.text is not None:
-            data["text"] = self.text
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_HANDLED_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Handled":
-        if not event.data:
-            return Handled()
-
-        return Handled(text=event.data.get("text"), context=event.data.get("context"))
+        raise NotImplementedError
 
 
 @dataclass
@@ -56,25 +47,14 @@ class NotHandled(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _NOT_HANDLED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.text is not None:
-            data["text"] = self.text
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_NOT_HANDLED_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "NotHandled":
-        if not event.data:
-            return NotHandled()
-
-        return NotHandled(
-            text=event.data.get("text"), context=event.data.get("context")
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -86,21 +66,14 @@ class HandledStart(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _HANDLED_START_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_HANDLED_START_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "HandledStart":
-        if not event.data:
-            return HandledStart()
-
-        return HandledStart(context=event.data.get("context"))
+        raise NotImplementedError
 
 
 @dataclass
@@ -112,14 +85,14 @@ class HandledChunk(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _HANDLED_CHUNK_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_HANDLED_CHUNK_TYPE, data={"text": self.text})
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "HandledChunk":
-        return HandledChunk(text=event.data["text"])
+        raise NotImplementedError
 
 
 @dataclass
@@ -128,11 +101,11 @@ class HandledStop(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _HANDLED_STOP_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_HANDLED_STOP_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "HandledStop":
-        return HandledStop()
+        raise NotImplementedError

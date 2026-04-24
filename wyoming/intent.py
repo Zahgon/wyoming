@@ -31,17 +31,14 @@ class Recognize(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _RECOGNIZE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {"text": self.text}
-        if self.context is not None:
-            data["context"] = self.context
-        return Event(type=_RECOGNIZE_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Recognize":
-        return Recognize(text=event.data["text"], context=event.data.get("context"))
+        raise NotImplementedError
 
 
 @dataclass
@@ -62,39 +59,18 @@ class Intent(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _INTENT_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {"name": self.name}
-        if self.entities:
-            data["entities"] = [asdict(entity) for entity in self.entities]
-        if self.text is not None:
-            data["text"] = self.text
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_INTENT_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> "Intent":
-        entity_dicts = data.get("entities")
-        if entity_dicts:
-            entities: List[Entity] = [
-                Entity(**entity_dict) for entity_dict in entity_dicts
-            ]
-        else:
-            entities = []
-
-        return Intent(
-            name=data["name"],
-            entities=entities,
-            text=data.get("text"),
-            context=data.get("context"),
-        )
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Intent":
-        return Intent.from_dict(event.data)
+        raise NotImplementedError
 
     def to_rhasspy(self) -> Dict[str, Any]:
         pass
@@ -112,19 +88,11 @@ class NotRecognized(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _NOT_RECOGNIZED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.text is not None:
-            data["text"] = self.text
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_NOT_RECOGNIZED_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "NotRecognized":
-        return NotRecognized(
-            text=event.data.get("text"), context=event.data.get("context")
-        )
+        raise NotImplementedError

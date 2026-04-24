@@ -13,14 +13,7 @@ from wyoming.info import Describe, Info
 
 def get_argument_parser() -> argparse.ArgumentParser:
     """Create argument parser with shared arguments."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--host", default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=5000)
-    parser.add_argument("--uri", help="URI of Wyoming service")
-    parser.add_argument(
-        "--debug", action="store_true", help="Print DEBUG logs to console"
-    )
-    return parser
+    raise NotImplementedError
 
 
 def get_app(
@@ -28,23 +21,13 @@ def get_app(
 ) -> Flask:
     """Create Flask app with default endpoints."""
 
-    app = Flask(name)
-
-    @app.route("/")
     def redirect_to_api():
-        pass
+        raise NotImplementedError
 
-    @app.route("/api/info", methods=["GET"])
     async def api_info():
-        pass
+        raise NotImplementedError
 
-    @app.errorhandler(Exception)
     async def handle_error(err):
-        """Return error as text."""
-        pass
+        raise NotImplementedError
 
-    flask_api_doc(
-        app, config_path=str(openapi_config_path), url_prefix="/api", title="API doc"
-    )
-
-    return app
+    raise NotImplementedError

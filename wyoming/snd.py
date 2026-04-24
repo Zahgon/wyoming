@@ -22,14 +22,14 @@ class Played(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _PLAYED_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_PLAYED_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Played":
-        return Played()
+        raise NotImplementedError
 
 
 class SndProcessAsyncClient(AsyncClient, contextlib.AbstractAsyncContextManager):
@@ -43,58 +43,22 @@ class SndProcessAsyncClient(AsyncClient, contextlib.AbstractAsyncContextManager)
         program: str,
         program_args: List[str],
     ) -> None:
-        super().__init__()
-
-        self.rate = rate
-        self.width = width
-        self.channels = channels
-        self.program = program
-        self.program_args = program_args
-
-        self._proc: Optional[Process] = None
-        self._chunk_converter = AudioChunkConverter(rate, width, channels)
+        raise NotImplementedError
 
     async def connect(self) -> None:
         pass
 
     async def disconnect(self) -> None:
-        assert self._proc is not None
-        assert self._proc.stdin is not None
-
-        try:
-            if self._proc.returncode is None:
-                # Terminate process gracefully
-                self._proc.stdin.close()
-                await self._proc.wait()
-        except ProcessLookupError:
-            # Expected when process has already exited
-            pass
-        except Exception:
-            _LOGGER.exception("Unexpected error stopping process: %s", self.program)
-        finally:
-            self._proc = None
+        raise NotImplementedError
 
     async def __aenter__(self) -> "SndProcessAsyncClient":
-        await self.connect()
-        return self
+        raise NotImplementedError
 
     async def __aexit__(self, exc_type, exc, tb):
-        await self.disconnect()
+        raise NotImplementedError
 
     async def read_event(self) -> Optional[Event]:
         """Client is write-only."""
 
     async def write_event(self, event: Event) -> None:
-        assert self._proc is not None
-        assert self._proc.stdin is not None
-
-        if not AudioChunk.is_type(event.type):
-            return
-
-        chunk = AudioChunk.from_event(event)
-
-        # Convert sample rate/width/channels if necessary
-        chunk = self._chunk_converter.convert(chunk)
-
-        self._proc.stdin.write(chunk.audio)
-        await self._proc.stdin.drain()
+        raise NotImplementedError

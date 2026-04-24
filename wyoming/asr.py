@@ -28,25 +28,14 @@ class Transcript(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _TRANSCRIPT_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {"text": self.text}
-        if self.language is not None:
-            data["language"] = self.language
-
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_TRANSCRIPT_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Transcript":
-        return Transcript(
-            text=event.data["text"],
-            language=event.data.get("language"),
-            context=event.data.get("context"),
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -67,29 +56,14 @@ class Transcribe(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _TRANSCRIBE_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.name is not None:
-            data["name"] = self.name
-
-        if self.language is not None:
-            data["language"] = self.language
-
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_TRANSCRIBE_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Transcribe":
-        data = event.data or {}
-        return Transcribe(
-            name=data.get("name"),
-            language=data.get("language"),
-            context=data.get("context"),
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -104,25 +78,14 @@ class TranscriptStart(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _TRANSCRIPT_START_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {}
-        if self.language is not None:
-            data["language"] = self.language
-        if self.context is not None:
-            data["context"] = self.context
-
-        return Event(type=_TRANSCRIPT_START_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TranscriptStart":
-        if not event.data:
-            return TranscriptStart()
-
-        return TranscriptStart(
-            context=event.data.get("context"), language=event.data.get("language")
-        )
+        raise NotImplementedError
 
 
 @dataclass
@@ -134,14 +97,14 @@ class TranscriptChunk(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _TRANSCRIPT_CHUNK_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_TRANSCRIPT_CHUNK_TYPE, data={"text": self.text})
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TranscriptChunk":
-        return TranscriptChunk(text=event.data["text"])
+        raise NotImplementedError
 
 
 @dataclass
@@ -150,11 +113,11 @@ class TranscriptStop(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _TRANSCRIPT_STOP_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        return Event(type=_TRANSCRIPT_STOP_TYPE)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "TranscriptStop":
-        return TranscriptStop()
+        raise NotImplementedError

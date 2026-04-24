@@ -20,15 +20,11 @@ class Error(Eventable):
 
     @staticmethod
     def is_type(event_type: str) -> bool:
-        return event_type == _ERROR_TYPE
+        raise NotImplementedError
 
     def event(self) -> Event:
-        data: Dict[str, Any] = {"text": self.text}
-        if self.code is not None:
-            data["code"] = self.code
-
-        return Event(type=_ERROR_TYPE, data=data)
+        raise NotImplementedError
 
     @staticmethod
     def from_event(event: Event) -> "Error":
-        return Error(text=event.data["text"], code=event.data.get("code"))
+        raise NotImplementedError
